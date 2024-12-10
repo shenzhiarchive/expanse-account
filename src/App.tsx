@@ -1,12 +1,10 @@
-import './App.css';
+import { ConfigProvider } from 'antd'
+import './App.css'
+import { useRoutes } from 'react-router'
+import { routes } from './router'
 
 const App = () => {
-  return (
-    <div className="content">
-      <h1>Rsbuild with React</h1>
-      <p>Start building amazing things with Rsbuild.</p>
-    </div>
-  );
-};
+  return <ConfigProvider>{useRoutes(routes)}</ConfigProvider>
+}
 
-export default App;
+export default App
