@@ -2,39 +2,48 @@ import { RouteObject } from 'react-router'
 import { ComponentType, LazyExoticComponent } from 'react'
 import { LazyImport } from '@/components/LazyImport'
 
-export type RouteMiddleware = LazyExoticComponent<ComponentType>
+export type LazyComponent = LazyExoticComponent<ComponentType>
 
-export type RouteConfig = {
-  middlewares?: RouteMiddleware[]
-} & RouteObject
+export type RouteConfig = Omit<
+  RouteObject,
+  'element' | 'children' | 'Component' | 'lazy'
+> & {
+  element: LazyComponent
+  middlewares?: LazyComponent[]
+  children?: RouteConfig[]
+}
 
 export const buildRoutes = (routes: RouteConfig[]): RouteObject[] => {
   return routes.map((item) => {
-    const { middlewares, children, ...restProps } = item
+    const { element, middlewares, children, ...restProps } = item
 
-    // 递归处理子路由
-    if (children) {
-      item.children = buildRoutes(children as RouteConfig[])
+    // 要返回的路由对象
+    let routeObject: RouteObject = {
+      ...restProps,
     }
 
-    // 如果有 middlewares，需要构造嵌套结构
-    if (middlewares && middlewares.length > 0) {
-      let node: RouteObject = { ...restProps }
+    // 递归构建子路由
+    if (children) {
+      routeObject.children = buildRoutes(children)
+    }
 
-      // 从最后一个 middleware 开始嵌套
+    // 异步加载组件
+    routeObject.element = <LazyImport lazy={element} />
+
+    // 中间件处理
+    if (middlewares && middlewares.length > 0) {
+      // 从后往前遍历中间件，这样中间件的执行顺序就是从前往后
+      // 例如：[A, B, C] => A(B(C()))
       for (let i = middlewares.length - 1; i >= 0; i--) {
         const middleware = middlewares[i]
-        node = {
-          element: <LazyImport lazy={middleware} />, // 当前 middleware 包裹下一层
-          children: [node], // 下一层作为子路由
+        routeObject = {
+          element: <LazyImport lazy={middleware} />,
+          children: [routeObject],
         }
       }
-
-      // 返回嵌套后的结构
-      return node
     }
 
-    // 如果没有 middlewares，直接返回原始路由
-    return item
+    // 返回路由对象
+    return routeObject
   })
 }

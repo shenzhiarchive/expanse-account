@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router'
 
 const LoginLayout = () => {
-  console.log('触发 login layout')
+  console.log('触发 login layouts')
   return (
     <div>
       <div>这是 LoginLayout</div>

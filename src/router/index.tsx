@@ -1,23 +1,26 @@
 import { lazy } from 'react'
-import { LazyImport } from '@/components/LazyImport'
 import { buildRoutes, RouteConfig } from './utils'
 
 const routeConfig: RouteConfig[] = [
   {
-    element: <LazyImport lazy={lazy(() => import('@/layout/BasicLayout'))} />,
+    element: lazy(() => import('@/layouts/BasicLayout')),
+    middlewares: [
+      lazy(() => import('@/middlewares/AuthMiddleware')),
+      lazy(() => import('@/middlewares/AdminMiddleware')),
+    ],
     children: [
       {
         path: '/',
-        element: <LazyImport lazy={lazy(() => import('@/pages/index'))} />,
+        element: lazy(() => import('@/pages/index')),
       },
     ],
   },
   {
-    element: <LazyImport lazy={lazy(() => import('@/layout/LoginLayout'))} />,
+    element: lazy(() => import('@/layouts/LoginLayout')),
     children: [
       {
         path: '/login',
-        element: <LazyImport lazy={lazy(() => import('@/pages/login'))} />,
+        element: lazy(() => import('@/pages/login')),
       },
     ],
   },
