@@ -1,10 +1,14 @@
-import { ConfigProvider } from 'antd'
 import './App.css'
-import { useRoutes } from 'react-router'
+import { createBrowserRouter, RouterProvider } from 'react-router'
 import { routes } from './router'
+import { ConfigProvider } from 'antd'
 
 const App = () => {
-  return <ConfigProvider>{useRoutes(routes)}</ConfigProvider>
+  return (
+    <ConfigProvider>
+      <RouterProvider router={createBrowserRouter(routes)} />
+    </ConfigProvider>
+  )
 }
 
 export default App
