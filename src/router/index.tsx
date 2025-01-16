@@ -1,5 +1,6 @@
 import { lazy } from 'react'
 import { buildRoutes, RouteConfig } from './utils'
+import { createBrowserRouter } from 'react-router'
 
 const routeConfig: RouteConfig[] = [
   {
@@ -27,3 +28,5 @@ const routeConfig: RouteConfig[] = [
 ]
 
 export const routes = buildRoutes(routeConfig)
+
+export const router = createBrowserRouter(routes)
