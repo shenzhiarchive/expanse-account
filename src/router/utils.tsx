@@ -8,7 +8,7 @@ export type RouteConfig = Omit<
   RouteObject,
   'element' | 'children' | 'Component' | 'lazy'
 > & {
-  element: LazyComponent
+  element?: LazyComponent
   middlewares?: LazyComponent[]
   children?: RouteConfig[]
 }
@@ -28,7 +28,7 @@ export const buildRoutes = (routes: RouteConfig[]): RouteObject[] => {
     }
 
     // 异步加载组件
-    routeObject.element = <LazyImport lazy={element} />
+    routeObject.element = element ? <LazyImport lazy={element} /> : undefined
 
     // 中间件处理
     if (middlewares && middlewares.length > 0) {

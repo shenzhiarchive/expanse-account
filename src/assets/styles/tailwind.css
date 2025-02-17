@@ -1,0 +1,16 @@
+@theme {
+  --width-label-50: 50px;
+  --width-label-75: 75px;
+  --width-label-100: 100px;
+  --width-label-125: 125px;
+  --width-label-150: 150px;
+  --width-label-175: 175px;
+  --width-label-200: 200px;
+  --margin-offset-50: 50px;
+  --margin-offset-75: 75px;
+  --margin-offset-100: 100px;
+  --margin-offset-125: 125px;
+  --margin-offset-150: 150px;
+  --margin-offset-175: 175px;
+  --margin-offset-200: 200px;
+}
