@@ -1,4 +1,3 @@
-import { Config } from '@/config/Config'
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { ApiResponse, BaseResponse } from '@/types/ApiResponse'
 import { message } from 'antd'
@@ -29,7 +28,7 @@ export class HttpUtil {
     config = config ?? {}
     let url = config.url ?? ''
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
-      url = `${Config.BaseUri}${url}`
+      url = `${import.meta.env.PUBLIC_API_URL}${url}`
     }
     config.url = url
     config.withCredentials = true

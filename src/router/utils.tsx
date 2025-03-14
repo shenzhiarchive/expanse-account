@@ -1,4 +1,4 @@
-import { RouteObject } from 'react-router'
+import { Outlet, RouteObject } from 'react-router'
 import { ComponentType, LazyExoticComponent } from 'react'
 import { LazyImport } from '@/components/LazyImport'
 
@@ -41,6 +41,9 @@ export const buildRoutes = (routes: RouteConfig[]): RouteObject[] => {
           children: [routeObject],
         }
       }
+    } else {
+      // 如果没有中间件，也没有 element 则传入 <Outlet />
+      routeObject.element = routeObject.element ?? <Outlet />
     }
 
     // 返回路由对象
